@@ -3,6 +3,12 @@
   ini_set('display_errors', 1);
   ini_set('log_errors', 1);
   ini_set('error_log', dirname(__FILE__) . '/error_log.txt');
+
+  //Set Global Variables
+  if (isset($_GET['id']))
+    $id = $_GET['id'];
+  else 
+    $id = 2; 
   // include database files
   include '../config/db.php';
 
@@ -11,7 +17,7 @@
   {
     // global connection $con
     global $con; 
-    $query = 'select * from vendors where id = "$id" ';
+    $query = "SELECT * FROM vendors WHERE id = $id";
     $result = mysqli_query($con, $query);
     if (!$result) 
       {
@@ -23,10 +29,10 @@
       $rows = array();
       while ($row = mysqli_fetch_assoc($result)) 
       {
-        $rows[] = $row;
+        $rows = $row;
       }
-      print json_encode($rows);
+      return json_encode($rows);
     }
   }
-  getVendor(1);
+  print getVendor($id);
   ?>
